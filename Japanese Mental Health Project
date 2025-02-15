@@ -1,0 +1,44 @@
+# What is the average mental illness amongest the students?
+SELECT 
+    ROUND(AVG(stress_level), 2) AS avg_stress,
+    ROUND(AVG(anxiety_level), 2) AS avg_anxiety,
+    ROUND(AVG(depression_level), 2) AS avg_depression,
+    ROUND(AVG(sleep_hours), 2) AS avg_sleep,
+    ROUND(AVG(academic_performance), 2) AS avg_academic_performance
+FROM student_mental_health;
+
+# What are the average mental illnesses by gender among the students?
+SELECT 
+    gender,
+    ROUND(AVG(stress_level), 2) AS avg_stress,
+    ROUND(AVG(anxiety_level), 2) AS avg_anxiety,
+    ROUND(AVG(depression_level), 2) AS avg_depression
+FROM student_mental_health
+GROUP BY gender;
+
+# What are the average mental illnesses by region?
+SELECT 
+    region,
+    COUNT(*) AS num_students,
+    ROUND(AVG(stress_level), 2) AS avg_stress,
+    ROUND(AVG(anxiety_level), 2) AS avg_anxiety,
+    ROUND(AVG(depression_level), 2) AS avg_depression
+FROM student_mental_health
+GROUP BY region
+ORDER BY avg_depression DESC;
+
+# How much impact does each mental illness has on the students sleep hours?
+SELECT 
+    CASE 
+        WHEN sleep_hours < 5 THEN 'Very Low Sleep'
+        WHEN sleep_hours BETWEEN 5 AND 6 THEN 'Low Sleep'
+        WHEN sleep_hours BETWEEN 6 AND 7 THEN 'Moderate Sleep'
+        WHEN sleep_hours > 7 THEN 'High Sleep'
+    END AS sleep_category,
+    COUNT(*) AS num_students,
+    ROUND(AVG(stress_level), 2) AS avg_stress,
+    ROUND(AVG(anxiety_level), 2) AS avg_anxiety,
+    ROUND(AVG(depression_level), 2) AS avg_depression
+FROM student_mental_health
+GROUP BY sleep_category
+ORDER BY sleep_category;
